@@ -38,3 +38,31 @@ Wi-Fi credentials in the firmware are placeholders — add your own before uploa
 
 **Deepesh Chauhan** — B.Tech Electrical Engineering, RGGEC Kangra
 [LinkedIn](https://www.linkedin.com/in/deepeshhh1)
+
+
+## 📚 Required libraries
+
+Board support (once): **esp32 by Espressif Systems** — Arduino IDE → Boards Manager.
+
+| Library | Used for | Install (Library Manager search) |
+| --- | --- | --- |
+| LiquidCrystal I2C (Frank de Brabander) | 16×2 LCD over I2C | `LiquidCrystal I2C` |
+| Adafruit ADS1X15 (Adafruit) | ADS1115 external ADC driver | `Adafruit ADS1X15` |
+
+Built into the ESP32 core, no install needed: `WiFi`, `WebServer`, `Wire`.
+
+## 🔌 Wiring — pin connections (ESP32)
+
+| ESP32 pin | Connects to | Notes |
+| --- | --- | --- |
+| GPIO21 (SDA) / GPIO22 (SCL) | ADS1115 + 16×2 LCD (shared I2C bus) | Precision sensing is done on the ADS1115, not the ESP32 ADC |
+| ADS1115 channel A0 | ZMPT101B output | Model-line voltage (line-break detection) |
+| ADS1115 channel A1 | ACS712 output | Model-line current (short-circuit / overload detection) |
+| GPIO32 | Push button | Simulate short-circuit fault |
+| GPIO33 | Push button | Simulate open-circuit / line-break fault |
+| GPIO25 | Push button | Simulate overload fault |
+| GPIO26 | Push button | Reset / acknowledge |
+| GPIO27 | Buzzer | Fault alarm |
+| GPIO14 | Green LED | Line healthy |
+| GPIO12 | Red LED | Fault indication |
+| — | 12 V step-down transformer + 12 V bulb load | The safe low-voltage model line the sensors watch |
